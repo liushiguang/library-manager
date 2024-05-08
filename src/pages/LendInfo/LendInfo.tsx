@@ -1,6 +1,8 @@
 const LendInfo = ()=> {
     return (
-        <></>
+        <>
+            This is lendInfo.
+        </>
     )
 }
 

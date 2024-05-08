@@ -1,6 +1,8 @@
 const BookManage = ()=> {
     return (
-        <></>
+        <>
+            This is bookManage.
+        </>
     )
 }
 

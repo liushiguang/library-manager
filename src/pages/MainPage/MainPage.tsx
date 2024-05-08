@@ -1,13 +1,21 @@
-import { Outlet,useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import home from "@/resources/Sidebar/home.svg"
+import book from "@/resources/Sidebar/book.svg"
+import reader from "@/resources/Sidebar/reader.svg"
+import lend from "@/resources/Sidebar/lend.svg"
+import logo from "@/resources/Header/logo.png"
 
 const Header = ()=> {
     return(
-        <div>
-        {/* 
-            导航栏的内容
-            1. logo
-            2. 
-        */}
+        /**
+         * 导航栏的内容
+         * 1. logo
+         * 2. 文字
+         * 3. 
+         */
+        <div className="h-full flex items-center bg-black/90">
+            {/* {<img src={logo} className="w-10"/>} */}
+            <span className="ml-5 text-lime-600 text-2xl font-semibold font-sans">图书管理系统后台</span>
         </div>
     )
 }
@@ -24,24 +32,29 @@ const Sidebar = () => {
             4. 借阅信息
         */}
 
-        <ul>
-            <li>
-                <button onClick={()=>navigate('/')}>
+        <ul className="h-full flex flex-col font-san">
+            <li className="basis-3"></li>
+            <li className="basis-[10%] p-[6px]">
+                <button className="w-full h-full flex justify-evenly items-center rounded-2xl btn glass border-2 bg-white/75 hover:scale-105" onClick={()=>navigate('/')}>
+                <img src={home} className="w-8" />
                 主页
                 </button>
             </li>
-            <li>
-                <button>
+            <li className="basis-[10%] p-[6px]">
+                <button className="w-full h-full flex justify-evenly items-center rounded-2xl btn glass border-2 bg-white/75 hover:scale-105" onClick={()=>navigate('/bookManage')}>
+                <img src={book} className="w-8" />
                 图书管理
                 </button>
             </li>
-            <li>
-                <button>
+            <li className="basis-[10%] p-[6px]">
+                <button className="w-full h-full flex justify-evenly items-center rounded-2xl btn glass border-2 bg-white/75 hover:scale-105" onClick={()=>navigate('/readerManage')}>
+                <img src={reader} className="w-8" />
                 读者管理
                 </button>
             </li>
-            <li>
-                <button>
+            <li className="basis-[10%] p-[6px]">
+                <button className="w-full h-full flex justify-evenly items-center rounded-2xl btn glass border-2 bg-white/75 hover:scale-105" onClick={()=>navigate('/lendInfo')}>
+                <img src={lend} className="w-8" />
                 借阅信息
                 </button>
             </li>
@@ -52,15 +65,15 @@ const Sidebar = () => {
 
 const MainPage = ()=>{
     return (
-        <div>
-            <div className="header">
+        <div className="w-full h-[55rem] flex flex-col border-b-2">
+            <div className="header basis-1/12">
                 <Header/>
             </div>
-            <div className="main">
-                <div className="sidebar">
+            <div className="main w-full basis-11/12 flex flex-row">
+                <div className="sidebar h-full basis-1/12">
                     <Sidebar />
                 </div>
-                <div className="content">
+                <div className="content h-full basis-11/12 bg-neutral-300">
                     <Outlet></Outlet>
                 </div>
             </div>
