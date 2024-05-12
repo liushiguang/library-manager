@@ -3,6 +3,8 @@ import home from "@/resources/Sidebar/home.svg"
 import book from "@/resources/Sidebar/book.svg"
 import reader from "@/resources/Sidebar/reader.svg"
 import lend from "@/resources/Sidebar/lend.svg"
+import notice from "@/resources/Sidebar/notice.svg"
+import message from "@/resources/Sidebar/message.svg"
 import logo from "@/resources/Header/logo.png"
 
 const Header = ()=> {
@@ -30,6 +32,8 @@ const Sidebar = () => {
             2. 读者管理
             3. 报表分析
             4. 借阅信息
+            5. 发布公告
+            6. 信箱
         */}
 
         <ul className="h-full flex flex-col font-san">
@@ -55,7 +59,19 @@ const Sidebar = () => {
             <li className="basis-[10%] p-[6px]">
                 <button className="w-full h-full flex justify-evenly items-center rounded-2xl btn glass border-2 bg-white/75 hover:scale-105" onClick={()=>navigate('/lendInfo')}>
                 <img src={lend} className="w-8" />
-                借阅信息
+                借阅管理
+                </button>
+            </li>
+            <li className="basis-[10%] p-[6px]">
+                <button className="w-full h-full flex justify-evenly items-center rounded-2xl btn glass border-2 bg-white/75 hover:scale-105" onClick={()=>navigate('/notice')}>
+                <img src={notice} className="w-8" />
+                发布公告
+                </button>
+            </li>
+            <li className="basis-[10%] p-[6px]">
+                <button className="w-full h-full flex justify-evenly items-center rounded-2xl btn glass border-2 bg-white/75 hover:scale-105" onClick={()=>navigate('/messageBox')}>
+                <img src={message} className="w-8" />
+                信箱
                 </button>
             </li>
         </ul>
