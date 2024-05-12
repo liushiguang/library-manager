@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
 import { user } from '@/type/user';
-import { on } from 'events';
 
 const EditForm = (props: any) => {
   const {user, onChange, onSave, onCancel} = props

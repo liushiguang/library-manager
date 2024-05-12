@@ -10,7 +10,9 @@ const SUCCESS_LEVEL = 2003
 const ERROR_LEVEL = 2004
 
 // 自定义弹窗提示框
-const CustomAlert = (msg: string, level: number) => {
+const CustomAlert = (props: any) => {
+    const {msg, level} = props
+    
     const info_alert = (msg: string) => {
         return (
             <div role="alert" className="alert alert-info">
@@ -44,21 +46,18 @@ const CustomAlert = (msg: string, level: number) => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 <span>Error! {msg}</span>
             </div>
-        )
+        )   
     }
 
-    switch(level) {
-        case INFO_LEVEL:
-            return info_alert
-        case WARNING_LEVEL:
-            return warning_alert
-        case SUCCESS_LEVEL:
-            return success_alert
-        case ERROR_LEVEL:
-            return error_alert
-        default:
-            return window.alert(msg)
-    }
+    return (
+        <div 
+            className='fixed top-[1%] left-[32%] flex items-center justify-center bg-gray-800 bg-opacity-0'>
+            {level === INFO_LEVEL && info_alert(msg)}
+            {level === WARNING_LEVEL && warning_alert(msg)}
+            {level === SUCCESS_LEVEL && success_alert(msg)}
+            {level === ERROR_LEVEL && error_alert(msg)}
+        </div>
+    )
 }
 
 const LendInfo = ()=> {
@@ -66,6 +65,9 @@ const LendInfo = ()=> {
   const [borrows, setBorrows] = useState<borrow[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [borrowsPerPage] = useState(10)
+  const [showAlert, setShowAlert] = useState(false)
+  const [alertMsg, setAlertMsg] = useState("")
+  const [alertLevel, setAlertLevel] = useState(INFO_LEVEL)
 
   // 获取借阅数据,并设置borrows数组,以显示在页面上,依赖于currentPage和borrowsPerPage
   useEffect(() => {
@@ -116,8 +118,26 @@ const LendInfo = ()=> {
     item.is_agree = 1
     const response = await axios.put(`http://localhost:5000/borrows/${item.id}`, item)
     
-    // 获取响应消息
-    const msg = response.data.msg
+    // 修改成功
+    if (response.data.code === 20063) {
+        setShowAlert(true)
+        setAlertMsg(response.data.msg)
+        setAlertLevel(SUCCESS_LEVEL)
+        setTimeout(() => {
+            setShowAlert(false)
+        }, 5000)
+
+    }
+    // 修改失败
+    else if (response.data.code === 40063 ) {
+        setShowAlert(true)
+        setAlertMsg(response.data.msg)
+        setAlertLevel(ERROR_LEVEL)
+        setTimeout(() => {
+            setShowAlert(false)
+        }, 3000)
+
+    }
 
     // 修改borrows数组中的数据
     const newBorrows = borrows.map((borrowItem: borrow) => borrowItem.id === item.id ? item : borrowItem)
@@ -129,6 +149,27 @@ const LendInfo = ()=> {
     item.is_agree = -1
     const response = await axios.put(`http://localhost:5000/borrows/${item.id}`, item)
     
+    // 修改成功
+    if (response.data.code === 20063) {
+        setShowAlert(true)
+        setAlertMsg(response.data.msg)
+        setAlertLevel(SUCCESS_LEVEL)
+        setTimeout(() => {
+            setShowAlert(false)
+        }, 3000)
+    
+    }
+    // 修改失败
+    else if (response.data.code === 40063 ) {
+        setShowAlert(true)
+        setAlertMsg(response.data.msg)
+        setAlertLevel(ERROR_LEVEL)
+        setTimeout(() => {
+            setShowAlert(false)
+        }, 3000)
+    
+    }
+
     // 修改borrows数组中的数据
     const newBorrows = borrows.map((borrowItem: borrow) => borrowItem.id === item.id ? item : borrowItem)
     setBorrows(newBorrows)
@@ -139,7 +180,7 @@ const LendInfo = ()=> {
           <div className='w-full flex flex-row'>
           <input
             type="text"
-            placeholder="Search Borrows"
+            placeholder="Search Readers"
             value={searchTerm}
             onChange={(event)=>handleSearchTerm(event.target.value)}
             className="basis-[85%] px-4 py-2 border-2 border-gray-300 rounded-md focus:outline-none hover:border-blue-500"
@@ -225,6 +266,10 @@ const LendInfo = ()=> {
               </tr>
             </tfoot>
           </table>
+            {
+                showAlert && <CustomAlert msg={alertMsg} level={alertLevel} />
+            }
+
     </div>
   )
 }

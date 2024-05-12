@@ -81,7 +81,7 @@ const Sidebar = () => {
 
 const MainPage = ()=>{
     return (
-        <div className="w-full h-[55rem] flex flex-col border-b-2">
+        <div className="w-full h-[56rem] flex flex-col border-b-2">
             <div className="header basis-1/12">
                 <Header/>
             </div>
