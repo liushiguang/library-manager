@@ -3,6 +3,88 @@ import axios from 'axios';
 import classNames from 'classnames';
 import { book } from '@/type/book';
 
+const EditForm = (props: any) => {
+  const { book, onChange, onSave, onCancel } = props
+
+  return (
+          <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50'>
+            <div 
+              className="w-[22%] border border-gray-300 rounded-2xl p-6 bg-white shadow-md">
+              <h2 className="text-center text-2xl font-semibold mb-4">编辑书籍信息</h2>
+              <form className="space-y-4">
+                  <div className="flex flex-col">
+                      <label htmlFor="name" className="font-semibold">图书名称:</label>
+                      <input 
+                          type='text' 
+                          id='name' 
+                          name='name' 
+                          value={book.book_name}
+                          onChange={onChange}
+                          className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                      />
+                  </div>
+                  <div className="flex flex-col">
+                      <label htmlFor="author" className="font-semibold">图书作者:</label>
+                      <input 
+                          type='text' 
+                          id='author' 
+                          name='author' 
+                          value={book.author}
+                          onChange={onChange}
+                          className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                      />
+                  </div>
+                  <div className="flex flex-col">
+                      <label htmlFor="press" className="font-semibold">出版社:</label>
+                      <input 
+                          type='text' 
+                          id='press' 
+                          name='press' 
+                          value={book.press}
+                          onChange={onChange}
+                          className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                      />
+                  </div>
+                  <div className="flex flex-col">
+                      <label htmlFor="category" className="font-semibold">图书类别:</label>
+                      <input 
+                          type='text' 
+                          id='category' 
+                          name='category' 
+                          value={book.category}
+                          onChange={onChange}
+                          className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                      />
+                  </div>
+                  <div className="flex flex-col">
+                      <label htmlFor="number" className="font-semibold">剩余数量:</label>
+                      <input 
+                          type='text' 
+                          id='number' 
+                          name='number' 
+                          value={book.number}
+                          onChange={onChange}
+                          className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                      />
+                  </div>
+                  <div className="flex justify-center space-x-4">
+                      <button 
+                          onClick={onCancel}
+                          className="glass py-2 px-6 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300">
+                          取消
+                      </button>
+                      <button 
+                          onClick={onSave}
+                          className="glass py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
+                          保存
+                      </button>
+                  </div>
+              </form>
+            </div>
+          </div>
+  )
+}
+
 const BookManage = ()=> {
   const iniBook: book = {
     book_id: -1,
@@ -88,6 +170,12 @@ const BookManage = ()=> {
     setEditingBook({...editingBook, [event.target.name]: event.target.value})
   }
 
+  // 取消编辑
+  const handleCancelEdit = () => {
+    setIsEditing(false)
+  }
+
+  // 保存编辑
   const handleSaveBook = async () => {
     // 发送Put请求到后端API，以更新书籍的信息
     const response = await axios.put(`http://localhost:5000/books/${editingBook.book_id}`, editingBook)
@@ -179,85 +267,7 @@ const BookManage = ()=> {
             </tfoot>
           </table>
           {
-            // isEditing &&
-            <div 
-            className= {
-              classNames("absolute w-[25%] top-[15%] left-[42%] border border-gray-300 rounded-2xl bg-white shadow-md p-6 transition-all duration-500 ease-in-out", {
-                "opacity-0": !isEditing,
-                "opacity-100": isEditing
-              })}>
-
-            <h2 className="text-center text-2xl font-semibold mb-4">编辑书籍信息</h2>
-            <form className="space-y-4">
-                <div className="flex flex-col">
-                    <label htmlFor="name" className="font-semibold">图书名称:</label>
-                    <input 
-                        type='text' 
-                        id='name' 
-                        name='name' 
-                        value={editingBook.book_name}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="author" className="font-semibold">图书作者:</label>
-                    <input 
-                        type='text' 
-                        id='author' 
-                        name='author' 
-                        value={editingBook.author}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="press" className="font-semibold">出版社:</label>
-                    <input 
-                        type='text' 
-                        id='press' 
-                        name='press' 
-                        value={editingBook.press}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="category" className="font-semibold">图书类别:</label>
-                    <input 
-                        type='text' 
-                        id='category' 
-                        name='category' 
-                        value={editingBook.category}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="number" className="font-semibold">剩余数量:</label>
-                    <input 
-                        type='text' 
-                        id='number' 
-                        name='number' 
-                        value={editingBook.number}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex justify-center space-x-4">
-                    <button 
-                        onClick={() => setIsEditing(false)}
-                        className="glass py-2 px-6 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300">
-                        取消
-                    </button>
-                    <button 
-                        onClick={handleSaveBook}
-                        className="glass py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
-                        保存
-                    </button>
-                </div>
-            </form>
-          </div>
+            isEditing && <EditForm book={editingBook} onChange={handleInputChange} onSave={handleSaveBook} onCancel={handleCancelEdit}/>         
           }
     </div>
   )

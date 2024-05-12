@@ -2,6 +2,100 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
 import { user } from '@/type/user';
+import { on } from 'events';
+
+const EditForm = (props: any) => {
+  const {user, onChange, onSave, onCancel} = props
+
+  return (
+          <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50'>
+            <div 
+            className= "w-[25%] border border-gray-300 rounded-2xl bg-white shadow-md p-6 transition-all duration-500 ease-in-out">
+            <h2 className="text-center text-2xl font-semibold mb-4">编辑用户信息</h2>
+            <form className="space-y-4">
+                <div className="flex flex-col">
+                    <label htmlFor="account" className="font-semibold">账号:</label>
+                    <input 
+                        type='text' 
+                        id='account' 
+                        name='account' 
+                        value={user.user_account}
+                        onChange={onChange}
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="user_name" className="font-semibold">用户名:</label>
+                    <input 
+                        type='text' 
+                        id='user_name' 
+                        name='user_name' 
+                        value={user.user_name}
+                        onChange={onChange}
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="password" className="font-semibold">密码:</label>
+                    <input 
+                        type='text' 
+                        id='password' 
+                        name='password' 
+                        value={user.user_password}
+                        onChange={onChange}
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="gender" className="font-semibold">性别:</label>
+                    <input 
+                        type='text' 
+                        id='gender' 
+                        name='gender' 
+                        value={user.gender}
+                        onChange={onChange}
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="phone" className="font-semibold">手机号码:</label>
+                    <input 
+                        type='text' 
+                        id='phone' 
+                        name='phone' 
+                        value={user.phone}
+                        onChange={onChange}
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label htmlFor="email" className="font-semibold">邮箱:</label>
+                    <input 
+                        type='text' 
+                        id='email' 
+                        name='email' 
+                        value={user.email}
+                        onChange={onChange}
+                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                    />
+                </div>
+                <div className="flex justify-center space-x-4">
+                    <button 
+                        onClick={onCancel}
+                        className="glass py-2 px-6 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300">
+                        取消
+                    </button>
+                    <button 
+                        onClick={onSave}
+                        className="glass py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
+                        保存
+                    </button>
+                </div>
+            </form>
+          </div>
+        </div>
+  )     
+}
 
 const ReaderManage = ()=> {
   const iniUser: user = {
@@ -88,6 +182,12 @@ const ReaderManage = ()=> {
     setEditingUser({...editingUser, [event.target.name]: event.target.value})
   }
 
+  // 取消编辑
+  const handleCancelEdit = () => {
+    setIsEditing(false)
+  }
+
+  // 保存编辑
   const handleSaveUser = async () => {
     // 发送Put请求到后端API，以更新用户的信息
     const response = await axios.put(`http://localhost:5000/users/${editingUser.user_id}`, editingUser)
@@ -181,96 +281,7 @@ const ReaderManage = ()=> {
             </tfoot>
           </table>
           {
-            // isEditing &&
-            <div 
-            className= {
-              classNames("absolute w-[25%] top-[15%] left-[42%] border border-gray-300 rounded-2xl bg-white shadow-md p-6 transition-all duration-500 ease-in-out", {
-                "opacity-0": !isEditing,
-                "opacity-100": isEditing
-              })}>
-
-            <h2 className="text-center text-2xl font-semibold mb-4">编辑用户信息</h2>
-            <form className="space-y-4">
-                <div className="flex flex-col">
-                    <label htmlFor="account" className="font-semibold">账号:</label>
-                    <input 
-                        type='text' 
-                        id='account' 
-                        name='account' 
-                        value={editingUser.user_account}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="user_name" className="font-semibold">用户名:</label>
-                    <input 
-                        type='text' 
-                        id='user_name' 
-                        name='user_name' 
-                        value={editingUser.user_name}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="password" className="font-semibold">密码:</label>
-                    <input 
-                        type='text' 
-                        id='password' 
-                        name='password' 
-                        value={editingUser.user_password}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="gender" className="font-semibold">性别:</label>
-                    <input 
-                        type='text' 
-                        id='gender' 
-                        name='gender' 
-                        value={editingUser.gender}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="phone" className="font-semibold">手机号码:</label>
-                    <input 
-                        type='text' 
-                        id='phone' 
-                        name='phone' 
-                        value={editingUser.phone}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="email" className="font-semibold">邮箱:</label>
-                    <input 
-                        type='text' 
-                        id='email' 
-                        name='email' 
-                        value={editingUser.email}
-                        onChange={handleInputChange}
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="flex justify-center space-x-4">
-                    <button 
-                        onClick={() => setIsEditing(false)}
-                        className="glass py-2 px-6 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300">
-                        取消
-                    </button>
-                    <button 
-                        onClick={handleSaveUser}
-                        className="glass py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
-                        保存
-                    </button>
-                </div>
-            </form>
-          </div>
+            isEditing && <EditForm user={editingUser} onChange={handleInputChange} onSave={handleSaveUser} onCancel={handleCancelEdit}/> 
           }
     </div>
   )

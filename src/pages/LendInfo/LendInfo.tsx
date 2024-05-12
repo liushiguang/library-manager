@@ -3,6 +3,64 @@ import axios from 'axios';
 import classNames from 'classnames';
 import { borrow } from '@/type/borrow';
 
+// 自定义提示等级
+const INFO_LEVEL = 2001
+const WARNING_LEVEL = 2002
+const SUCCESS_LEVEL = 2003
+const ERROR_LEVEL = 2004
+
+// 自定义弹窗提示框
+const CustomAlert = (msg: string, level: number) => {
+    const info_alert = (msg: string) => {
+        return (
+            <div role="alert" className="alert alert-info">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>Info: {msg}</span>
+            </div>
+        )
+    }
+
+    const warning_alert = (msg: string) => {
+        return (
+            <div role="alert" className="alert alert-warning">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <span>Warning: {msg}</span>
+            </div>
+        )
+    }
+    
+    const success_alert = (msg: string) => {
+        return (
+            <div role="alert" className="alert alert-success">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>Success! {msg}</span>
+            </div>
+        )
+    }
+
+    const error_alert = (msg: string) => {
+        return (
+            <div role="alert" className="alert alert-error">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>Error! {msg}</span>
+            </div>
+        )
+    }
+
+    switch(level) {
+        case INFO_LEVEL:
+            return info_alert
+        case WARNING_LEVEL:
+            return warning_alert
+        case SUCCESS_LEVEL:
+            return success_alert
+        case ERROR_LEVEL:
+            return error_alert
+        default:
+            return window.alert(msg)
+    }
+}
+
 const LendInfo = ()=> {
   const [searchTerm, setSearchTerm] = useState("")
   const [borrows, setBorrows] = useState<borrow[]>([])
@@ -60,7 +118,6 @@ const LendInfo = ()=> {
     
     // 获取响应消息
     const msg = response.data.msg
-    window.alert(msg)
 
     // 修改borrows数组中的数据
     const newBorrows = borrows.map((borrowItem: borrow) => borrowItem.id === item.id ? item : borrowItem)
@@ -150,7 +207,7 @@ const LendInfo = ()=> {
             <tfoot>
               {/* 分页按钮 */}
               <tr>
-                <td colSpan={6} className='p-2'>
+                <td colSpan={7} className='p-2'>
                   <div className='w-full flex flex-row justify-center space-x-4'>
                     <button 
                       className='py-1 px-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300'

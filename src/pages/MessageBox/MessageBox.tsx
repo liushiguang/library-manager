@@ -1,9 +1,10 @@
+import React, { useState } from 'react';
+
 const MessageBox = () => {
-    return (
-        <div>
-            <h1>MessageBox</h1>
-        </div>
-    )
-}
+  return (
+    <div>
+    </div>
+  );
+};
 
 export default MessageBox;
