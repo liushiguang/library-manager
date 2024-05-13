@@ -83,11 +83,11 @@ const MainPage = ()=>{
             <div className="header basis-1/12">
                 <Header/>
             </div>
-            <div className="main w-full basis-11/12 flex flex-row">
-                <div className="sidebar h-full basis-1/12">
+            <div className="main w-full h-full basis-11/12 flex flex-row">
+                <div className="sidebar w-full h-full basis-1/12">
                     <Sidebar />
                 </div>
-                <div className="content h-full basis-11/12 bg-neutral-200/75">
+                <div className="content w-full h-full basis-11/12 bg-neutral-200/75">
                     <Outlet></Outlet>
                 </div>
             </div>

@@ -98,7 +98,7 @@ const FeedbackTable = () => {
 
 const MessageBox = () => {
   return (
-    <div className='forAdmin h-96 rounded-md shadow-md p-8'>
+    <div className='forAdmin w-full h-full p-10'>
       <FeedbackTable />
     </div>
   );

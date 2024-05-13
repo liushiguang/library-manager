@@ -37,7 +37,7 @@ interface Book {
     const sortedBooks = books.sort((a, b) => b.borrowedTimes - a.borrowedTimes).slice(0, 10);
   
     return (
-        <div className="p-4 bg-gray-100 rounded shadow-md transition-transform transform">
+        <div className="w-full h-full p-5 bg-gray-100 rounded-lg shadow-md transition-transform transform">
             <h2 className="text-lg font-semibold mb-4 text-gray-800 flex items-center">
                 <span role="img" aria-label="hot" className="mr-2">🔥</span> 本月借阅次数最多的十本书排行榜
             </h2>
@@ -131,15 +131,13 @@ const AnalysisDiagram = ()=> {
         "计算机类" : 211,
         "魔幻现实主义" : 10
     }
-
     // echarts 饼状图配置项
     const pieChartData = Object.keys(bookCategory).map((key: string) => ({name: key, value: bookCategory[key]}))
-
     const optionForBook = {
         title: {
             text: '图书统计表',
-            left: 'center',
             top: '5%',
+            left: 'center',
             // 主标题样式
             textStyle: {
                 fontWeight: 'normal',
@@ -224,13 +222,6 @@ const AnalysisDiagram = ()=> {
             },
           },
         },
-        grid: {
-          top: '15%',
-          left: '3%',
-          right: '4%',
-          bottom: '5%',
-          containLabel: true,
-        },
         series: [
           {
             name: '活跃用户数量',
@@ -253,6 +244,7 @@ const AnalysisDiagram = ()=> {
     const optionForBorrow = {
         title: {
           text: '借阅统计数据',
+          left: 'center',
         },
         tooltip: {
           trigger: 'axis',
@@ -287,13 +279,13 @@ const AnalysisDiagram = ()=> {
         const actions = ['图书添加', '图书删除', '用户注册', '通知发布'];
         const users = ['管理员A', '管理员B', '管理员C', '管理员D'];
         const descriptions = [
-        '添加了《JavaScript高级程序设计》',
-        '删除了《计算机网络》',
+        '添加了书籍《JavaScript高级程序设计》',
+        '删除了书籍《计算机网络》',
         '注册了新用户：用户C',
         '发布了关于系统更新的通知',
         ];
 
-        let generatedLogs = [];
+        const generatedLogs = [];
         for (let i = 1; i <= 50; i++) {
         const randomAction = actions[Math.floor(Math.random() * actions.length)];
         const randomUser = users[Math.floor(Math.random() * users.length)];
@@ -318,66 +310,93 @@ const AnalysisDiagram = ()=> {
     // 当前页的数据
     const currentLogs = logs.slice(currentPage * 5, currentPage * 5 + 5);
 
+    {/* 
+        主页
+        1. 图书统计数据
+            饼状图：表示不同种类图书分布情况
+        2. 用户统计数据
+            柱状图：用户活跃时间段
+        3. 借阅统计数据
+            排行榜：借阅次数最多的图书
+            折线图：借阅情况趋势图（每月借阅量变化）
+        4. 系统运营数据
+            表格：系统操作记录（如图书添加、删除、用户注册、通知发布等）
+    */}
     return (
-        <div className="w-full h-full">
-            {/* 
-                主页
-                1. 图书统计数据
-                    饼状图：表示不同种类图书分布情况
-                2. 用户统计数据
-                    柱状图：用户活跃时间段
-                3. 借阅统计数据
-                    排行榜：借阅次数最多的图书
-                    折线图：借阅情况趋势图（每月借阅量变化）
-                4. 系统运营数据
-                    表格：系统操作记录（如图书添加、删除、用户注册、通知发布等）
-            */}
-            <div className="forBook h-96 rounded-md shadow-md p-8">
-                <ReactEcharts option={optionForBook} />
+      <div className="flex flex-col w-full h-full">
+        <div className="flex flex-row flex-grow">
+          
+          {/* 图书统计 */}
+          <div className="w-1/3 mr-4">
+            <div className="rounded-lg bg-white shadow-md p-4 h-full">
+              <h2 className="text-xl font-bold mb-4">图书统计</h2>
+              <ReactEcharts option={optionForBook} style={{ width: '100%', height: '100%' }} />
             </div>
-            <div className="forUser h-96 rounded-md shadow-md p-8">
-                <ReactEcharts option={optionForUser} />
+          </div>
+
+          {/* 用户统计和借阅统计 */}
+          <div className="flex flex-col w-2/3">
+            {/* 用户统计 */}
+            <div className="mb-4 h-1/2">
+              <div className="rounded-lg bg-white shadow-md p-4 h-full">
+                <h2 className="text-xl font-bold mb-4">用户活跃时间段</h2>
+                <ReactEcharts option={optionForUser} style={{ width: '100%', height: '100%' }} />
+              </div>
             </div>
-            <div className="forBorrow h-96 rounded-md shadow-md p-8">
-                <ReactEcharts option={optionForBorrow} />
-            </div>
-            <div className='forBorrow h-96 rounded-md shadow-md p-8'>
-                <Leaderboard books={mockBooks} />
-            </div>
-            <div className="p-4">
-                <h1 className="text-2xl font-bold mb-4">系统操作记录</h1>
-                <SystemLogTable logs={currentLogs} />
-                <div className="mt-4 flex justify-center gap-4">
-                    <button
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
-                    disabled={currentPage === 0}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                    前一页
-                    </button>
-                    <div className="flex">
-                    {[...Array(totalPages)].map((_, index) => (
-                        <button
-                        key={index}
-                        onClick={() => setCurrentPage(index)}
-                        className={`mx-1 px-3 py-2 rounded ${
-                            currentPage === index ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
-                        }`}
-                        >
-                        {index}
-                        </button>
-                    ))}
-                    </div>
-                    <button
-                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
-                    disabled={currentPage === totalPages - 1}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                    下一页
-                    </button>
+            {/* 借阅统计 */}
+            <div className="flex h-1/2">
+              {/* 借阅次数最多的图书 */}
+              <div className="w-1/2 mr-4">
+                <div className="rounded-lg bg-white shadow-md p-4 h-full">
+                  <h2 className="text-xl font-bold mb-4">借阅次数最多的图书</h2>
+                  <Leaderboard books={mockBooks} />
                 </div>
+              </div>
+              {/* 借阅趋势变化 */}
+              <div className="w-1/2">
+                <div className="rounded-lg bg-white shadow-md p-4 h-full">
+                  <h2 className="text-xl font-bold mb-4">借阅趋势变化</h2>
+                  <ReactEcharts option={optionForBorrow} style={{ width: '100%', height: '100%' }} />
                 </div>
+              </div>
             </div>
+          </div>
+        </div>
+    
+      {/* 系统操作记录 */}
+      <div className="rounded-lg bg-white shadow-md p-4 mt-4">
+        <h2 className="text-xl font-bold mb-4">系统操作记录</h2>
+        <SystemLogTable logs={currentLogs} />
+        <div className="mt-4 flex justify-center">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+            disabled={currentPage === 0}
+            className="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            前一页
+          </button>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index)}
+              className={`mx-1 px-3 py-2 rounded ${
+                currentPage === index ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
+            disabled={currentPage === totalPages - 1}
+            className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            下一页
+          </button>
+        </div>
+      </div>
+    
+    </div>
     )
 }
 
