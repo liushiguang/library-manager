@@ -10,11 +10,11 @@ import Login from "@/pages/Login/Login";
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: "/login",
         element: <Login />,
     },
     {
-        path: "/ms",
+        path: "/",
         element: <MainPage />,
         children: [
             {
