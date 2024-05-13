@@ -3,9 +3,9 @@ import BookManage from "@/pages/BookManage/BookManage";
 import LendInfo from "@/pages/LendInfo/LendInfo";
 import MainPage from "@/pages/MainPage/MainPage";
 import ReaderManage from "@/pages/ReaderManage/ReaderManage";
-import Notice from "@/pages/Notice/Notice";
 import MessageBox from "@/pages/MessageBox/MessageBox";
 import { createBrowserRouter } from "react-router-dom";
+import Announcement from "@/pages/Announcement/Announcement";
 
 const router = createBrowserRouter([
     {
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "notice",
-                element: <Notice />
+                element: <Announcement />
             },
             {
                 path: "messageBox",

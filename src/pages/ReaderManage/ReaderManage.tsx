@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import classNames from 'classnames';
 import { user } from '@/type/user';
 
 const EditForm = (props: any) => {

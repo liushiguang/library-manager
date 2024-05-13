@@ -5,7 +5,6 @@ import reader from "@/resources/Sidebar/reader.svg"
 import lend from "@/resources/Sidebar/lend.svg"
 import notice from "@/resources/Sidebar/notice.svg"
 import message from "@/resources/Sidebar/message.svg"
-import logo from "@/resources/Header/logo.png"
 
 const Header = ()=> {
     return(
@@ -13,11 +12,10 @@ const Header = ()=> {
          * 导航栏的内容
          * 1. logo
          * 2. 文字
-         * 3. 
          */
-        <div className="h-full flex items-center bg-black/90">
+        <div className="h-full flex items-center shadow-lg bg-blue-500 hover:bg-blue-600 transition duration-500">
             {/* {<img src={logo} className="w-10"/>} */}
-            <span className="ml-5 text-lime-600 text-2xl font-semibold font-sans">图书管理系统后台</span>
+            <span className="ml-20 text-white text-2xl font-bold font-sans">图书管理系统后台</span>
         </div>
     )
 }
@@ -89,7 +87,7 @@ const MainPage = ()=>{
                 <div className="sidebar h-full basis-1/12">
                     <Sidebar />
                 </div>
-                <div className="content h-full basis-11/12 bg-neutral-300">
+                <div className="content h-full basis-11/12 bg-neutral-200/75">
                     <Outlet></Outlet>
                 </div>
             </div>
