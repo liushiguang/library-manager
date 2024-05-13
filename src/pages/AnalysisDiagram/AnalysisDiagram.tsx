@@ -37,7 +37,7 @@ interface Book {
     const sortedBooks = books.sort((a, b) => b.borrowedTimes - a.borrowedTimes).slice(0, 10);
   
     return (
-        <div className="w-full h-full p-5 bg-gray-100 rounded-lg shadow-md transition-transform transform">
+        <div className="w-full h-full p-5 bg-gray-100 rounded-lg shadow-md transition-transform transform overflow-auto">
             <h2 className="text-lg font-semibold mb-4 text-gray-800 flex items-center">
                 <span role="img" aria-label="hot" className="mr-2">🔥</span> 本月借阅次数最多的十本书排行榜
             </h2>
@@ -323,13 +323,13 @@ const AnalysisDiagram = ()=> {
             表格：系统操作记录（如图书添加、删除、用户注册、通知发布等）
     */}
     return (
-      <div className="flex flex-col w-full h-full">
-        <div className="flex flex-row flex-grow">
+      <div className="flex flex-col mt-2 mx-2 h-[45rem] font-sans">
+        <div className="h-[60%] flex flex-row">
           
           {/* 图书统计 */}
-          <div className="w-1/3 mr-4">
+          <div className="w-1/3 mr-2 mt-2">
             <div className="rounded-lg bg-white shadow-md p-4 h-full">
-              <h2 className="text-xl font-bold mb-4">图书统计</h2>
+              <h2 className="text-xl font-bold font-sans">图书统计</h2>
               <ReactEcharts option={optionForBook} style={{ width: '100%', height: '100%' }} />
             </div>
           </div>
@@ -337,7 +337,7 @@ const AnalysisDiagram = ()=> {
           {/* 用户统计和借阅统计 */}
           <div className="flex flex-col w-2/3">
             {/* 用户统计 */}
-            <div className="mb-4 h-1/2">
+            <div className="mb-2 h-1/2">
               <div className="rounded-lg bg-white shadow-md p-4 h-full">
                 <h2 className="text-xl font-bold mb-4">用户活跃时间段</h2>
                 <ReactEcharts option={optionForUser} style={{ width: '100%', height: '100%' }} />
@@ -348,8 +348,7 @@ const AnalysisDiagram = ()=> {
               {/* 借阅次数最多的图书 */}
               <div className="w-1/2 mr-4">
                 <div className="rounded-lg bg-white shadow-md p-4 h-full">
-                  <h2 className="text-xl font-bold mb-4">借阅次数最多的图书</h2>
-                  <Leaderboard books={mockBooks} />
+                    <Leaderboard books={mockBooks}/>
                 </div>
               </div>
               {/* 借阅趋势变化 */}
@@ -364,9 +363,9 @@ const AnalysisDiagram = ()=> {
         </div>
     
       {/* 系统操作记录 */}
-      <div className="rounded-lg bg-white shadow-md p-4 mt-4">
+      <div className="rounded-lg bg-white shadow-md p-4 mt-4 grow">
         <h2 className="text-xl font-bold mb-4">系统操作记录</h2>
-        <SystemLogTable logs={currentLogs} />
+          <SystemLogTable logs={currentLogs} />
         <div className="mt-4 flex justify-center">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}

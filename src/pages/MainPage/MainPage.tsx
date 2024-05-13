@@ -14,7 +14,6 @@ const Header = ()=> {
          * 2. 文字
          */
         <div className="h-full flex items-center shadow-lg bg-blue-500 hover:bg-blue-600 transition duration-500">
-            {/* {<img src={logo} className="w-10"/>} */}
             <span className="ml-20 text-white text-2xl font-bold font-sans">图书管理系统后台</span>
         </div>
     )
@@ -88,7 +87,7 @@ const MainPage = ()=>{
                     <Sidebar />
                 </div>
                 <div className="content w-full h-full basis-11/12 bg-neutral-200/75">
-                    <Outlet></Outlet>
+                    <Outlet />
                 </div>
             </div>
         </div>

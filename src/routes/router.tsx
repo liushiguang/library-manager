@@ -1,15 +1,20 @@
+import { createBrowserRouter } from "react-router-dom";
 import AnalysisDiagram from "@/pages/AnalysisDiagram/AnalysisDiagram";
 import BookManage from "@/pages/BookManage/BookManage";
 import LendInfo from "@/pages/LendInfo/LendInfo";
 import MainPage from "@/pages/MainPage/MainPage";
 import ReaderManage from "@/pages/ReaderManage/ReaderManage";
 import MessageBox from "@/pages/MessageBox/MessageBox";
-import { createBrowserRouter } from "react-router-dom";
 import Announcement from "@/pages/Announcement/Announcement";
+import Login from "@/pages/Login/Login";
 
 const router = createBrowserRouter([
     {
         path: "/",
+        element: <Login />,
+    },
+    {
+        path: "/ms",
         element: <MainPage />,
         children: [
             {
